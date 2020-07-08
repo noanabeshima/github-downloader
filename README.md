@@ -6,7 +6,8 @@ To download the repositories using the pre-downloaded repository names in `repo_
 
 To replicate the repository-name downloading, run  
 `python get_repo_names.py --user {your-github-username} --token {your-github-access-token}`  
-GitHub access tokens can be created by following [this tutorial](https://docs.github.com/en/github/authenticating-to-github/creating-a-personal-access-token)
+
+GitHub access token can be created by following [this tutorial](https://docs.github.com/en/github/authenticating-to-github/creating-a-personal-access-token)  
 <br></br>
 ### Todo:
 - [ ] Extend code to download all 192,205 repositories.
