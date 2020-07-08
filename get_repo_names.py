@@ -29,7 +29,7 @@ def get_letter_pairs():
     return letter_pairs
 
 def scrape_repos(user: str = "your-github-username",
-                 token: str = "your-github-authentication-token",
+                 token: str = "your-github-access-token",
                  min_stars: int = 100,
                  ):
     letter_pairs = get_letter_pairs()
