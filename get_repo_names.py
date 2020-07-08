@@ -2,7 +2,7 @@
 get_repo_names.py
 
 Downloads the names of GitHub repositories as a json list, repo_names.json.
-EG: ['noanabeshima/github-scraper', 'deepmind/dm-haiku']
+EG: repo_names.json = ['noanabeshima/github-scraper', 'deepmind/dm-haiku']
 '''
 
 import os
