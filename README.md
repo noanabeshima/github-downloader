@@ -12,4 +12,4 @@ GitHub access token can be created by following [this tutorial](https://docs.git
 <br></br>
 #### Todo:
 - [ ] Extend code to download all repositories.
-- [ ] Add extra processing for NLP (convert all repositories into list(s) of plain text strings)
+- [ ] Add extra processing for language modelling (convert all repositories into list(s) of plain text strings)
