@@ -1,4 +1,4 @@
-# github-scraper
+# github-downloader
 This is a tool for downloading 135,293 of the 192,205 total GitHub repositories with more than 100 stars.  
 
 To download the repositories using the pre-downloaded repository names in `repo_names.json`, simply run  
