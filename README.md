@@ -1,10 +1,10 @@
 # github-scraper
 This is a tool for downloading 135,293 of the 192,205 total GitHub repositories with more than 100 stars.  
 
-To download the repositories, by using the pre-downloaded repository names in `repo_names.json` simply run  
+To download the repositories using the pre-downloaded repository names in `repo_names.json`, simply run  
 `python download_repos.py`  
 
-To replicate the repository-name scraping, run  
+To replicate the repository-name downloading, run  
 `python get_repo_names.py --user {your-github-username} --token {your-github-access-token}`  
 GitHub access tokens can be created by following [this tutorial](https://docs.github.com/en/github/authenticating-to-github/creating-a-personal-access-token)
 <br></br>
