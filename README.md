@@ -1,7 +1,7 @@
 # github-downloader
 This is a tool for downloading 135,293 of the ~192,205 GitHub repositories with more than 100 stars, ~2TB of data.  
 
-To download the repositories to `output` using the pre-downloaded repository names in `repo_names.json`, simply run  
+To download the repositories to `output/` using the pre-downloaded repository names in `repo_names.json`, simply run  
 `python download_repos.py`  
 
 To replicate the repository-name downloading, run  
