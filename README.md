@@ -11,4 +11,4 @@ GitHub access token can be created by following [this tutorial](https://docs.git
 
 <br></br>
 #### Todo:
-- [ ] Extend code to download all 192,205 repositories.
+- [ ] Extend code to download all repositories.
