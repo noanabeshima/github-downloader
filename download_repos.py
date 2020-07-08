@@ -1,5 +1,7 @@
-'''download_repos.py
-Downloads all the repositories listed in repo_names.json'''
+'''
+download_repos.py
+Downloads all the repositories listed in repo_names.json
+'''
 
 import os
 import json
