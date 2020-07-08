@@ -99,7 +99,7 @@ def scrape_repos(user: str = "your-github-username",
 
             if page >= n_query_pages:
                 # No more pages available
-                break
+                break # Exit letter_pair loop
 
         print(f"{len(set(repo_names))} unique repositories scraped in total.")
 
