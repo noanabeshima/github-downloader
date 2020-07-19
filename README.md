@@ -1,7 +1,8 @@
 # Download all GitHub repositories
 This is a tool for downloading the ~192K GitHub repositories that are more than 100 stars and smaller than a gigabyte.
 
-To download the repositories stored in `github_repositories.csv`, simply run `python download_repos.py`. They will be saved to `./output`
+To download the repositories stored in `github_repositories.csv`, simply run `python download_repos.py`.
+They will be saved to `./output`
 
 ## Filtering
 Stored in `github_repositories.csv` are repository names along with how many stars they have and their top language. To download one particular language, or a subset of the repositories by number of stars, you can filter the file and then run `download_repos.py`.
