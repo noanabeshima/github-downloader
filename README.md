@@ -32,3 +32,4 @@ The way we do that here is by restricting the size of repositories queried in or
 - [x] Extend code to be able to download all repositories.
 - [x] Add extra processing for language modelling, i.e. add option to convert all repositories into list(s) of plain text strings while downloading.
 - [ ] Better command-line interface
+- [ ] Update requirements.txt
