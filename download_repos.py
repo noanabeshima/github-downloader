@@ -1,10 +1,10 @@
 '''
 download_repos.py
-Downloads all the repositories listed in repo_names.json
+Downloads all the repositories listed in repo_names.csv
 '''
 
 import os
-import json
+import csv
 from tqdm import tqdm
 from joblib import Parallel, delayed
 
@@ -15,11 +15,14 @@ def download_repo(repo):
     else:
         print(f"Already downloaded {repo}")
 
-with open('repo_names.json', 'r') as f:
-    repo_names = json.load(f)
+with open('github_repositories.csv', 'r') as f:
+    csv_reader = csv.reader(f)
+    repositories = list(map(tuple, csv_reader))
 
 if 'output' not in os.listdir():
     os.makedirs('output')
 
+
+repo_names = [repo[0] for repo in repositories]
 Parallel(n_jobs=40, prefer="threads")(
-    delayed(download_repo)(repo) for repo in tqdm(repo_names))
+    delayed(download_repo)(name) for name in tqdm(repo_names))
