@@ -18,7 +18,7 @@ TOKEN = {your-github-access-token}
 
 A GitHub access token can be created by following [this tutorial](https://docs.github.com/en/github/authenticating-to-github/creating-a-personal-access-token).
 
-## Downloading repositories as text with lm-dataformat
+## Downloading repositories and extracting text with [lm-dataformat](https://github.com/leogao2/lm_dataformat)
 Run `download_repo_text.py`. You might want to edit `n_threads` in the file to adjust the amount of CPU and bandwidth you use.
 
 ## How it works
