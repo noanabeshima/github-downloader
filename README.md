@@ -19,7 +19,7 @@ TOKEN = {your-github-access-token}
 A GitHub access token can be created by following [this tutorial](https://docs.github.com/en/github/authenticating-to-github/creating-a-personal-access-token).
 
 ## Downloading repositories as text with lm-dataformat
-Run `download_repo_text.py`. You might want to edit `n_threads` to change the amount of CPU and bandwidth you use.
+Run `download_repo_text.py`. You might want to edit `n_threads` in the file to adjust the amount of CPU and bandwidth you use.
 
 ## How it works
 We want to download information about all GitHub repositories, but API requests return at most 1000 results. There are much more than 1000 repositories! How can we get all of them?
