@@ -28,4 +28,5 @@ The way we do that here is by restricting the size of repositories queried in or
 <br></br>
 ## Todo
 - [x] Extend code to be able to download all repositories.
-- [ ] Add extra processing for language modelling, i.e. add option to convert all repositories into list(s) of plain text strings while downloading.
+- [ ] Add extra processing for language modelling, i.e. add option to convert all repositories into list(s) of plain text strings while downloading. **(One form of this added to branch LibreAI)**
+- [ ] Add clean command line interface.
