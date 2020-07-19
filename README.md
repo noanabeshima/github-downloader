@@ -8,7 +8,7 @@ They will be saved to `./output`
 Stored in `github_repositories.csv` are repository names along with how many stars they have and their top language. To download one particular language, or a subset of the repositories by number of stars, you can filter the file and then run `download_repos.py`.
 
 ## Replication
-To replicate the repository-name downloading, in `download_repo_info.py` set
+To replicate downloading `github_repositories.csv`, in `download_repo_info.py` set
 
 USER = {your-github-username}<br>
 TOKEN = {your-github-access-token}
@@ -18,6 +18,8 @@ TOKEN = {your-github-access-token}
 
 A GitHub access token can be created by following [this tutorial](https://docs.github.com/en/github/authenticating-to-github/creating-a-personal-access-token).
 
+## Downloading repositories as text with lm-dataformat
+Run `download_repo_text.py`. You might want to edit `n_threads` to change the amount of CPU and bandwidth you use.
 
 ## How it works
 We want to download information about all GitHub repositories, but API requests return at most 1000 results. There are much more than 1000 repositories! How can we get all of them?
@@ -28,4 +30,4 @@ The way we do that here is by restricting the size of repositories queried in or
 <br></br>
 ## Todo
 - [x] Extend code to be able to download all repositories.
-- [ ] Add extra processing for language modelling, i.e. add option to convert all repositories into list(s) of plain text strings while downloading.
+- [x] Add extra processing for language modelling, i.e. add option to convert all repositories into list(s) of plain text strings while downloading.
