@@ -27,5 +27,5 @@ The way we do that here is by restricting the size of repositories queried in or
 
 <br></br>
 ## Todo
-- [x] Extend code to download all repositories.
+- [x] Extend code to download all repositories >= 100 stars.
 - [ ] Add extra processing for language modelling, i.e. add option to convert all repositories into list(s) of plain text strings while downloading.
