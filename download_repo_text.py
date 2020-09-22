@@ -94,8 +94,45 @@ def process_repo_list(repo_data, archive_name='github_data'):
 
         
         for curdir, dirs, files in os.walk(repodir):
-            
-            files = [curdir + '/' + f for f in files if '.git' not in f and f[0] is not '.' and 'LICENSE' not in f and f.split('.')[-1] not in ['rkt', 'ss', 'csv', 'tsv', ]]
+            bad_extensions = [
+                'bin',
+                'bmp',
+                'bz2',
+                'class',
+                'csv',
+                'dat',
+                'dylib',
+                'eot',
+                'gif',
+                'gitignore',
+                'glif',
+                'gz',
+                'ico',
+                'jar',
+                'jpeg',
+                'jpg',
+                'log',
+                'o',
+                'ogg',
+                'otf',
+                'pdf',
+                'png',
+                'pyc',
+                'rkt',
+                'so',
+                'ss',
+                'svg',
+                'tar',
+                'tsv',
+                'ttf',
+                'woff',
+                'woff2',
+                'xz',
+                'zip',
+                'zst'
+            ]
+
+            files = [curdir + '/' + f for f in files if '.git' not in f and f[0] is not '.' and 'LICENSE' not in f and 'node_modules' not in f and '.min.' not in f and f.split('.')[-1] not in bad_extensions]
 
             filenames = [f.split("/")[-1] for f in files]
             extensions = [mime.from_file(f) for f in files]
