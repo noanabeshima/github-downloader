@@ -83,9 +83,8 @@ def get_content(f):
         return
 
 
-def process_repo_list(repo_data, archive_name='github_data'):
-    ar = lmd.Archive(archive_name)
-
+def process_repo_list(repo_data):
+    out = []
     for i, repo in enumerate(repo_data):
         try:
             name, stars, lang = repo
@@ -93,7 +92,6 @@ def process_repo_list(repo_data, archive_name='github_data'):
             repodir = f'./.tmp/{name.split("/")[-1]}'
             os.system(f'git clone --depth 1 --single-branch https://github.com/{name} {repodir}')
             shutil.rmtree(f'{repodir}/.git', ignore_errors=True)
-
             for curdir, dirs, files in os.walk(repodir):
                 bad_extensions = [
                     'app',
@@ -164,16 +162,12 @@ def process_repo_list(repo_data, archive_name='github_data'):
                         meta['file_name'] = filenames[i]
                         meta['mime_type'] = extensions[i]
 
-                        ar.add_data(text, meta)
+                        out.append([text, meta])
 
             shutil.rmtree(repodir, ignore_errors=True)
-            if (i + 1) % 100 == 0:
-                ar.commit()
         except:
             traceback.print_exc()
-
-    ar.commit()
-
+    return out
 
 def process_args():
     parser = argparse.ArgumentParser(
@@ -222,6 +216,14 @@ if __name__ == '__main__':
 
     # do work
     repo_chunks = split_into_chunks(repo_data, args.chunk_size)
+    archive_name = 'github_data'
+    ar = lmd.Archive(archive_name)
     pool = Pool(n_threads)
-    for _ in tqdm(pool.imap_unordered(process_repo_list, repo_chunks), total=len(repo_chunks)):
-        pass
+    pbar = tqdm(repo_chunks, total=len(repo_chunks), unit_scale=args.chunk_size)
+    commit_every = 10 # commits archive every n chunks
+    for count, chunk in enumerate(pbar):
+        repos_out = pool.map(process_repo_list, chunk)
+        for r in repos_out:
+            ar.add_data(r[0], meta=r[1])
+        if count % commit_every == 0:
+            ar.commit()
