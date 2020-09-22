@@ -84,89 +84,87 @@ def get_content(f):
 
 
 def process_repo_list(repo_data):
-    out = []
-    for i, repo in enumerate(repo_data):
-        try:
-            name, stars, lang = repo
-            meta = {'repo_name': name, 'stars': stars, 'repo_language': lang}
-            repodir = f'./.tmp/{name.split("/")[-1]}'
-            os.system(f'git clone --depth 1 --single-branch https://github.com/{name} {repodir}')
-            shutil.rmtree(f'{repodir}/.git', ignore_errors=True)
-            for curdir, dirs, files in os.walk(repodir):
-                bad_extensions = [
-                    'app',
-                    'bin',
-                    'bmp',
-                    'bz2',
-                    'class',
-                    'csv',
-                    'dat',
-                    'db',
-                    'dll',
-                    'dylib',
-                    'egg',
-                    'eot',
-                    'exe',
-                    'gif',
-                    'gitignore',
-                    'glif',
-                    'gradle',
-                    'gz',
-                    'ico',
-                    'jar',
-                    'jpeg',
-                    'jpg',
-                    'lo',
-                    'lock',
-                    'log',
-                    'mp3',
-                    'mp4',
-                    'nar',
-                    'o',
-                    'ogg',
-                    'otf',
-                    'p',
-                    'pdf',
-                    'png',
-                    'pickle',
-                    'pkl',
-                    'pyc',
-                    'pyd',
-                    'pyo',
-                    'rkt',
-                    'so',
-                    'ss',
-                    'svg',
-                    'tar',
-                    'tsv',
-                    'ttf',
-                    'war',
-                    'webm',
-                    'woff',
-                    'woff2',
-                    'xz',
-                    'zip',
-                    'zst'
-                ]
+    out = None
+    try:
+        name, stars, lang = repo_data
+        meta = {'repo_name': name, 'stars': stars, 'repo_language': lang}
+        repodir = f'./.tmp/{name.split("/")[-1]}'
+        os.system(f'git clone --depth 1 --single-branch https://github.com/{name} {repodir}')
+        shutil.rmtree(f'{repodir}/.git', ignore_errors=True)
+        for curdir, dirs, files in os.walk(repodir):
+            bad_extensions = [
+                'app',
+                'bin',
+                'bmp',
+                'bz2',
+                'class',
+                'csv',
+                'dat',
+                'db',
+                'dll',
+                'dylib',
+                'egg',
+                'eot',
+                'exe',
+                'gif',
+                'gitignore',
+                'glif',
+                'gradle',
+                'gz',
+                'ico',
+                'jar',
+                'jpeg',
+                'jpg',
+                'lo',
+                'lock',
+                'log',
+                'mp3',
+                'mp4',
+                'nar',
+                'o',
+                'ogg',
+                'otf',
+                'p',
+                'pdf',
+                'png',
+                'pickle',
+                'pkl',
+                'pyc',
+                'pyd',
+                'pyo',
+                'rkt',
+                'so',
+                'ss',
+                'svg',
+                'tar',
+                'tsv',
+                'ttf',
+                'war',
+                'webm',
+                'woff',
+                'woff2',
+                'xz',
+                'zip',
+                'zst'
+            ]
 
-                files = [curdir + '/' + f for f in files if '.git' not in f and f[
-                    0] is not '.' and 'LICENSE' not in f and 'node_modules' not in f and '.min.' not in f and f.split('.')[
-                             -1] not in bad_extensions]
+            files = [curdir + '/' + f for f in files if '.git' not in f and f[
+                0] is not '.' and 'LICENSE' not in f and 'node_modules' not in f and '.min.' not in f and f.split('.')[
+                         -1] not in bad_extensions]
 
-                filenames = [f.split("/")[-1] for f in files]
-                extensions = [mime.from_file(f) for f in files]
-                text_outputs = list(map(get_content, files))
-                for i in range(len(files)):
-                    text = text_outputs[i]
-                    if text is not None:
-                        meta['file_name'] = filenames[i]
-                        meta['mime_type'] = extensions[i]
+            filenames = [f.split("/")[-1] for f in files]
+            extensions = [mime.from_file(f) for f in files]
+            text_outputs = list(map(get_content, files))
+            for i in range(len(files)):
+                text = text_outputs[i]
+                if text is not None:
+                    meta['file_name'] = filenames[i]
+                    meta['mime_type'] = extensions[i]
 
-                        out.append([text, meta])
-
-            shutil.rmtree(repodir, ignore_errors=True)
-        except:
-            traceback.print_exc()
+                    out = [text, meta]
+        shutil.rmtree(repodir, ignore_errors=True)
+    except:
+        traceback.print_exc()
     return out
 
 def process_args():
@@ -220,10 +218,11 @@ if __name__ == '__main__':
     ar = lmd.Archive(archive_name)
     pool = Pool(n_threads)
     pbar = tqdm(repo_chunks, total=len(repo_chunks), unit_scale=args.chunk_size)
-    commit_every = 10 # commits archive every n chunks
+    commit_every = 10
     for count, chunk in enumerate(pbar):
         repos_out = pool.map(process_repo_list, chunk)
         for r in repos_out:
-            ar.add_data(r[0], meta=r[1])
+            if r is not None:
+                ar.add_data(r[0], meta=r[1])
         if count % commit_every == 0:
             ar.commit()
