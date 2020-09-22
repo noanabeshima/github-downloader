@@ -1,6 +1,5 @@
 import chardet
 import magic
-import multiprocessing as mp
 import lm_dataformat as lmd
 import os
 import random
@@ -100,13 +99,14 @@ def process_repo_list(repo_data, archive_name='github_data'):
 
             filenames = [f.split("/")[-1] for f in files]
             extensions = [mime.from_file(f) for f in files]
-            text_outputs = list(nonzero(map(get_content, files)))
+            text_outputs = list(map(get_content, files))
             for i in range(len(files)):
                 text = text_outputs[i]
-                meta['file_name'] = filenames[i]
-                meta['mime_type'] = extensions[i]
+                if text is not None:
+                    meta['file_name'] = filenames[i]
+                    meta['mime_type'] = extensions[i]
 
-                ar.add_data(text, meta)
+                    ar.add_data(text, meta)
 
         shutil.rmtree(repodir, ignore_errors=True)
         if (i + 1) % 100 == 0:
@@ -124,8 +124,6 @@ if __name__ == '__main__':
     with open('github_repositories.csv', 'r') as f:
         csv_reader = csv.reader(f)
         repo_data = list(map(tuple, csv_reader))
-
-    # pool = mp.Pool(8)
 
     repo_data.sort()
     random.seed(42)
