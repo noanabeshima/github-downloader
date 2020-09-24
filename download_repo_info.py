@@ -58,7 +58,7 @@ def get_request(lower_bound: int, upper_bound: int, page: int = 1):
     except:
         print(f'Unexpected status code. Status code returned is {r.status_code}')
         print(r.text)
-        save_ckpt(lower_bound, upper_bound, repo_list)
+        save_ckpt(lower_bound, upper_bound)
         print("Exiting program.")
         exit()
     
