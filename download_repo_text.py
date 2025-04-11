@@ -1,3 +1,4 @@
+import logging
 import chardet
 import magic
 import lm_dataformat as lmd
@@ -77,7 +78,7 @@ def get_content(f):
             # something went horribly wrong!
             ...
     except:
-        print(type, f, enc)
+        logging.info(type, f, enc)
         traceback.print_exc()
         time.sleep(0.1)
         return

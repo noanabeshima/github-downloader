@@ -7,6 +7,7 @@ Each data record has the repository's name, number of stars, and top language
 The output is github_repositories.csv
 '''
 
+import logging
 import os
 import json
 import time
@@ -31,7 +32,7 @@ REMAINING_REQUESTS = 30
 def save_ckpt(lower_bound: int, upper_bound: int):
     global repo_list
     repo_list = list(set(repo_list)) # remove duplicates
-    print(f"Saving checkpoint {lower_bound, upper_bound}...")
+    logging.info(f"Saving checkpoint {lower_bound, upper_bound}...")
     with open('repo_ckpt.pkl', 'wb') as f:
         pickle.dump((lower_bound, upper_bound, repo_list), f)
 
@@ -45,9 +46,9 @@ def get_request(lower_bound: int, upper_bound: int, page: int = 1):
            )
 
     if r.status_code == 403:
-            print('API rate limit exceeded.')
+            logging.error('API rate limit exceeded.')
             save_ckpt(lower_bound, upper_bound, repo_list)
-            print('Exiting program.')
+            logging.info('Exiting program.')
             exit()
     elif r.status_code == 422:
         # No more pages available
@@ -56,16 +57,16 @@ def get_request(lower_bound: int, upper_bound: int, page: int = 1):
     try:
         assert r.status_code == 200
     except:
-        print(f'Unexpected status code. Status code returned is {r.status_code}')
-        print(r.text)
+        logging.error(f'Unexpected status code. Status code returned is {r.status_code}')
+        logging.info(r.text)
         save_ckpt(lower_bound, upper_bound)
-        print("Exiting program.")
+        logging.info("Exiting program.")
         exit()
     
     REMAINING_REQUESTS -= 1
 
     if REMAINING_REQUESTS == 0:
-        print("Sleeping 60 seconds to stay under GitHub API rate limit...")
+        logging.info("Sleeping 60 seconds to stay under GitHub API rate limit...")
         time.sleep(60)
         save_ckpt(lower_bound, upper_bound)
         REMAINING_REQUESTS = 30
@@ -102,14 +103,14 @@ if __name__ == '__main__':
         # Load checkpoint
         with open('repo_ckpt.pkl', 'rb') as f:
             lower_bound, upper_bound, repo_list = pickle.load(f)
-        print(f"Loading from {lower_bound}..{upper_bound}")
+        logging.info(f"Loading from {lower_bound}..{upper_bound}")
     else:
         lower_bound = 0
         upper_bound = 5
         repo_list = []
 
     if lower_bound >= 10000000:
-        print('''
+        logging.info('''
 Checkpoint is for an already completed download of GitHub repository information.
 Please delete `repo_ckpt.pkl` to restart and try again.
             ''')
@@ -140,13 +141,13 @@ Please delete `repo_ckpt.pkl` to restart and try again.
             # Update the slope of our linear approximation
             slope = n_results/(upper_bound - lower_bound)
 
-            print(f'size {lower_bound}..{upper_bound} ~> {n_results} results')
+            logging.info(f'size {lower_bound}..{upper_bound} ~> {n_results} results')
             # If we get <= 1000 results over the range, exit the search loop
             # and download all repository names over the range
             if n_results <= 1000:
                 break
 
-        print(f"Downloading repositories in size range {lower_bound}..{upper_bound}")
+        logging.info(f"Downloading repositories in size range {lower_bound}..{upper_bound}")
         download_range(lower_bound, upper_bound)
         lower_bound = upper_bound + 1
 

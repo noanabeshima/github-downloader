@@ -3,6 +3,7 @@ download_repos.py
 Downloads all the repositories listed in repo_names.csv
 '''
 
+import logging
 import os
 import csv
 from tqdm import tqdm
@@ -13,7 +14,7 @@ def download_repo(repo):
     if file_name not in os.listdir("output/"):
         os.system(f'git clone --depth 1 --single-branch https://github.com/{repo} output/{file_name}')
     else:
-        print(f"Already downloaded {repo}")
+        logging.info(f"Already downloaded {repo}")
 
 with open('github_repositories.csv', 'r') as f:
     csv_reader = csv.reader(f)
